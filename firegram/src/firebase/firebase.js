@@ -1,10 +1,10 @@
-//importing the modules.
-import firebase from 'firebase/app' 
-import 'firebase/storage'  //importing the firebase storage sdk to use firebase storage
-import 'firebase/firestore'  //importing the firestore sdk to use firebase firestore
+//the modules.
+import firebase from 'firebase/app'      // importing firebase
+import 'firebase/storage'               // to use firebase storage
+import 'firebase/firestore'            // to use the cloud firestore database
 
 
-
+// the firebase configuration object
 let firebaseConfig = {
     apiKey: "AIzaSyAoTmGZQkLbRBaFoo4hz0e5VZPfF52xg60",
     authDomain: "firegram-6110f.firebaseapp.com",
@@ -15,14 +15,17 @@ let firebaseConfig = {
 }
 
 
+// initializing firebase app.
+firebase.initializeApp( firebaseConfig )
 
-// initialize firebase
-firebase.initializeApp(firebaseConfig)
+// initializing firebase storage
+let projectStorage = firebase.storage()
 
-const projectStorage = firebase.storage()         // initializing firebase storage
-const projectFirestore = firebase.firestore()    //  initializing firebase firestore
+// initializing cloud firestore
+let projectFirestore = firebase.firestore()
 
 
+// exporting so that they can be used in other files.
+export { projectStorage, projectFirestore } 
 
-export { projectStorage, projectFirestore }   //exporting the variables
 

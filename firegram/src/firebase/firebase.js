@@ -1,7 +1,7 @@
-//the modules.
-import firebase from 'firebase/app'      // importing firebase
-import 'firebase/storage'               // to use firebase storage
-import 'firebase/firestore'            // to use the cloud firestore database
+// modules
+import firebase from 'firebase/app'
+import 'firebase/firestore'         // the cloud firestore sdk
+import 'firebase/storage'          //  the firebase storage sdk
 
 
 // the firebase configuration object
@@ -16,16 +16,25 @@ let firebaseConfig = {
 
 
 // initializing firebase app.
+try {
 firebase.initializeApp( firebaseConfig )
+}
+catch (err) {
+    if (!/already exists/.test(err.message)) {
+    console.error('Firebase initialization error raised', err.stack)
+}}
 
-// initializing firebase storage
-let projectStorage = firebase.storage()
 
 // initializing cloud firestore
-let projectFirestore = firebase.firestore()
+const projectFirestore = firebase.firestore()
+
+// initializing firebase storage
+const projectStorage = firebase.storage()
+
+// initializing timestamp
+const timestamp = firebase.firestore.FieldValue.serverTimestamp
 
 
-// exporting so that they can be used in other files.
-export { projectStorage, projectFirestore } 
-
+// exporting
+export { projectFirestore, projectStorage, timestamp }
 

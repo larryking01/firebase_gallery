@@ -1,7 +1,8 @@
-// modules
 import firebase from 'firebase/app'
-import 'firebase/firestore'         // the cloud firestore sdk
-import 'firebase/storage'          //  the firebase storage sdk
+import 'firebase/firestore'
+import 'firebase/storage'
+//import 'firebase/auth'
+
 
 
 // the firebase configuration object
@@ -15,26 +16,28 @@ let firebaseConfig = {
 }
 
 
-// initializing firebase app.
+// initializing firebase
 try {
-firebase.initializeApp( firebaseConfig )
+    firebase.initializeApp(firebaseConfig)
 }
-catch (err) {
-    if (!/already exists/.test(err.message)) {
-    console.error('Firebase initialization error raised', err.stack)
-}}
+catch(error) {
+    if(!/already exists/.test(error.message)){
+        console.log('firebase initialization error', error.stack)
+    }
+}
 
 
-// initializing cloud firestore
+// initializing firestore, storage and a timestamp
 const projectFirestore = firebase.firestore()
-
-// initializing firebase storage
 const projectStorage = firebase.storage()
-
-// initializing timestamp
 const timestamp = firebase.firestore.FieldValue.serverTimestamp
 
 
 // exporting
 export { projectFirestore, projectStorage, timestamp }
+
+
+
+
+
 

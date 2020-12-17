@@ -33,20 +33,23 @@ body{
 /* upload form styles */
 
 
+
 /* progress bar styles */
 .progress-bar {
   height: 5px;
-  background: var(--primary);
+  background: blue;
   margin-top: 20px;
 }
 
 
 /* image grid styles */
-.image-grid {
+.img-grid {
   margin: 20px auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 40px
+  grid-gap: 40px;
+  position: relative;
+  top: 40px;
 }
 
 
@@ -55,7 +58,7 @@ body{
   height: 0;
   padding: 50% 0;
   position: relative;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .img-wrap img {
@@ -69,12 +72,22 @@ body{
 }
 
 
-
-
-
-
-
-
-
-
 /* modal styles */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+
+.backdrop img {
+  display: block;
+  max-width: 60%;
+  max-height: 80%;
+  margin: 60px auto;
+  box-shadow: 3px 5px 7px rgba(0,0,0,0.5);
+  border: 3px solid white;
+}

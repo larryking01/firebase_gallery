@@ -1,37 +1,38 @@
+// custom hook to save a selected file into firebase storage and firestore.
 import { useState, useEffect } from 'react'
-import { projectStorage, projectFirestore, timestamp } from '../firebase/firebase'
+import { projectFirestore, projectStorage, timestamp } from '../firebase/firebase'
 
 
 
-const useStorage = ( file ) => {
+const useStorage = (file) => {
+    // setting up state.
     const [ progress, setProgress ] = useState(0)
-    const [ error, setError ] = useState(null)
     const [ url, setUrl ] = useState(null)
+    const [ error, setError ] = useState(null)
 
 
-    // logic to store data
     useEffect(() => {
         const storageRef = projectStorage.ref(file.name)
-        const collectionRef = projectFirestore.collection('images')
-
+        const collectionRef = projectFirestore.collection('pictures')
 
         storageRef.put(file).on('state_changed', (snap) => {
-            let percentage = Math.floor((snap.bytesTransferred / snap.totalBytes )) * 100
+            let percentage = Math.floor(( snap.bytesTransferred / snap.totalBytes ) * 100)
             setProgress(percentage)
         }, (error) => {
             setError(error)
         }, async () => {
-            const url = await storageRef.getDownloadURL()
-            setUrl(url)
-            const createdAt = timestamp()
-            collectionRef.add({ url, createdAt})
+            let fetched_url = await storageRef.getDownloadURL()
+            setUrl(fetched_url)
+            let createdAt = timestamp()
+            collectionRef.add({url: fetched_url, createdAt})
         })
 
     }, [file])
 
-    return { progress, error, url }
-
+    return { progress, url, error }
 }
 
 
+
+// exporting
 export default useStorage

@@ -3,38 +3,30 @@ import ProgressBar from './ProgressBar'
 
 
 export default function UploadForm() {
-    const [ file, setFile ] = useState(null)
-    const [ error, setError ] = useState(null)
+    // setting the selected file.
+    const [file, setFile] = useState(null)
+
+    // array to hold valid file types.
+    let validTypes = ['image/png', 'image/jpeg']
 
 
-    // the array containing the valid types
-    let types = ['image/jpeg', 'image/png'] 
-
-
-    // handler for when a file is selected.
-    const changeHandler = ( event ) => {
+    // handler for when a file is selected
+    const fileSelected = (event) => {
         let selectedFile = event.target.files[0]
         
-        if(selectedFile && types.includes(selectedFile.type)){
-            setError('')
+        // validating the selected file
+        if(selectedFile && validTypes.includes(selectedFile.type)){
             setFile(selectedFile)
-            console.log(file)
         }else {
-            setError('invalid selection, select an image(jpeg/png)')
+            setFile(null)
+            alert('Invalid file selected. \nSelect an image file (jpeg/png)')
         }
-
     }
 
-
-
     return (
-        <div>
-            <form>
-                <input type='file' onChange={changeHandler} />
-                { error && <div className='output'> { error } </div> }
-                { file && <ProgressBar file={file} setFile={setFile} /> }
-            </form>
-            
-        </div>
+        <form>
+            <input type='file' className='upload-input' onChange={fileSelected} />
+            { file && <ProgressBar file={file} setFile={setFile} /> }
+        </form>
     )
 }

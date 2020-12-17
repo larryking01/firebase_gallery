@@ -1,26 +1,32 @@
-import { useState, useEffect } from 'react'
+// custom hook to fetch url of pictures saved inside cloud firestore.
+import { useEffect, useState } from 'react'
 import { projectFirestore } from '../firebase/firebase'
 
 
 
-
-export default function useFirestore(collection) {
-    const [ docs, setDocs ] = useState(null)
+const useFirestore = (collection) => {
+    const [ imageUrls, setImageUrls ] = useState([])
 
     useEffect(() => {
-        const unsub = projectFirestore.collection(collection)
-            .orderBy('createdAt', 'desc')
-            .onSnapshot((snap) => {
-                let documents = []
-                snap.forEach(doc => {
-                    documents.push({...doc.data(), id: doc.id})
-                })
-                setDocs(documents)
-            })
+        const unsubscribe = projectFirestore.collection(collection)
+          .orderBy('createdAt', 'desc')
+          .onSnapshot((snap) => {
+            let urlsArray = []
+            snap.forEach(doc => {
+                urlsArray.push({...doc.data(), id: doc.id })
+            }) 
+            setImageUrls(urlsArray)
+        })
 
-            return () => unsub()
-
+        // unsubscribing from the collection.
+        return () => unsubscribe()
     }, [collection])
 
-    return { docs }
+    return { imageUrls }
 }
+
+
+export default useFirestore
+
+
+
